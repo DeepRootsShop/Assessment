@@ -273,8 +273,6 @@ const QUESTIONS = [
     options: [
       { text: 'Male', value: 'male' },
       { text: 'Female', value: 'female' },
-      { text: 'Non-binary / Other', value: 'nonbinary' },
-      { text: 'Prefer not to say', value: 'na' },
     ],
   },
   {
@@ -929,7 +927,7 @@ export default function App() {
     <div>
       {screen === 'intro' && <IntroScreen onStart={() => setScreen('quiz')} />}
       {screen === 'quiz' && (
-        <div style={{ opacity: fade ? 1 : 0, transform: fade ? 'translateY(0)' : 'translateY(8px)', transition: 'opacity 0.18s ease, transform 0.18s ease' }}>
+        <div style={{ opacity: fade ? 1 : 0, transition: 'opacity 0.3s ease-in-out' }}>
           <QuestionScreen
             question={QUESTIONS[currentQ]}
             qIndex={currentQ}
