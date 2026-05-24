@@ -8,7 +8,7 @@ import { useState, useEffect } from 'react';
   document.head.appendChild(link);
 })();
 
-const GUMROAD_URL = 'https://gumroad.com/your-product-link';
+const GUMROAD_URL = 'https://bsky10.gumroad.com/l/xsvyxb';
 
 const CATS = {
   ONL: {
