@@ -855,6 +855,86 @@ function UnlockedScreen({ top3, scores, onRestart }) {
   );
 }
 
+// ── Legal Modal ───────────────────────────────────────────────────────────
+function LegalModal({ type, onClose }) {
+  const isPrivacy = type === 'privacy';
+  const today = 'May 24, 2026';
+
+  return (
+    <div
+      onClick={onClose}
+      style={{ position: 'fixed', inset: 0, background: '#00000088', zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px' }}
+    >
+      <div
+        onClick={(e) => e.stopPropagation()}
+        style={{ background: '#fff', borderRadius: 20, maxWidth: 640, width: '100%', maxHeight: '80vh', overflowY: 'auto', padding: '32px 28px', fontFamily: 'Plus Jakarta Sans, sans-serif', position: 'relative' }}
+      >
+        <button
+          onClick={onClose}
+          style={{ position: 'absolute', top: 16, right: 16, background: '#F3F4F6', border: 'none', borderRadius: 8, width: 32, height: 32, cursor: 'pointer', fontSize: 16, color: '#6B7280', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+        >✕</button>
+
+        {isPrivacy ? (
+          <>
+            <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: 24, fontWeight: 900, color: '#1B1B2F', margin: '0 0 6px' }}>Privacy Policy</h2>
+            <p style={{ fontSize: 12, color: '#9CA3AF', margin: '0 0 24px' }}>Last updated: {today}</p>
+
+            {[
+              { title: '1. Who We Are', body: 'Deep Roots is an entrepreneurial assessment platform operated by an individual based in Pennsylvania, USA. We are not a registered business entity. For questions, contact us via our Gumroad page.' },
+              { title: '2. What Data We Collect', body: 'We do not collect, store, or transmit any personal information on our servers. Your quiz answers are stored temporarily in your browser\'s localStorage only — they never leave your device and are deleted when you clear your browser data or retake the quiz.' },
+              { title: '3. Payment Data', body: 'All payments are processed by Gumroad, Inc. We do not collect, see, or store your credit card, billing address, or payment information. Gumroad\'s privacy policy governs all payment data. You can review it at gumroad.com/privacy.' },
+              { title: '4. Cookies', body: 'We do not use tracking cookies or analytics tools. Your browser\'s localStorage is used solely to temporarily store your quiz results so they can be displayed after payment. This is not a cookie and is not used for advertising or tracking.' },
+              { title: '5. Third-Party Services', body: 'Our site uses Google Fonts (fonts.googleapis.com) which may log your IP address as part of their standard CDN operation. We use Gumroad for payment processing. We are not responsible for the data practices of these third parties.' },
+              { title: '6. Children\'s Privacy', body: 'This site is not directed at children under 13. We do not knowingly collect any information from children.' },
+              { title: '7. Your Rights (GDPR / CCPA)', body: 'Since we do not collect or store personal data on our end, there is no personal data to access, correct, or delete on our servers. For data held by Gumroad (email, payment info), contact Gumroad directly at support@gumroad.com.' },
+              { title: '8. Changes to This Policy', body: 'We may update this Privacy Policy from time to time. Continued use of the site after changes constitutes acceptance of the new policy.' },
+            ].map(({ title, body }) => (
+              <div key={title} style={{ marginBottom: 20 }}>
+                <h3 style={{ fontSize: 14, fontWeight: 700, color: '#1B1B2F', margin: '0 0 6px' }}>{title}</h3>
+                <p style={{ fontSize: 13, color: '#4B5563', lineHeight: 1.7, margin: 0 }}>{body}</p>
+              </div>
+            ))}
+          </>
+        ) : (
+          <>
+            <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: 24, fontWeight: 900, color: '#1B1B2F', margin: '0 0 6px' }}>Terms of Service</h2>
+            <p style={{ fontSize: 12, color: '#9CA3AF', margin: '0 0 24px' }}>Last updated: {today}</p>
+
+            {[
+              { title: '1. Acceptance of Terms', body: 'By accessing or using the Deep Roots Entrepreneurial Assessment ("the Site"), you agree to be bound by these Terms of Service. If you do not agree, please do not use the Site.' },
+              { title: '2. What We Offer', body: 'Deep Roots provides a free online entrepreneurial assessment quiz. Users may optionally purchase a detailed results report for $9 (USD), processed through Gumroad. The assessment is for informational and educational purposes only.' },
+              { title: '3. No Professional Advice', body: 'The assessment results are not professional business, financial, legal, or investment advice. Deep Roots makes no guarantees about business outcomes or earnings. Results are based on your self-reported answers and are provided as general guidance only. Always consult qualified professionals before starting a business.' },
+              { title: '4. Purchases & Refunds', body: 'All purchases are processed by Gumroad. The $9 report fee is non-refundable once your results have been unlocked and displayed, as the digital content is delivered instantly upon payment. If you experience a technical issue and did not receive access to your results, contact us through Gumroad for assistance.' },
+              { title: '5. Intellectual Property', body: 'All content on this Site, including quiz questions, category descriptions, and written content, is the property of Deep Roots. You may not reproduce, distribute, or resell any content without written permission.' },
+              { title: '6. Limitation of Liability', body: 'To the fullest extent permitted by law, Deep Roots shall not be liable for any indirect, incidental, or consequential damages arising from your use of the Site or reliance on assessment results. Our total liability shall not exceed the amount you paid ($9).' },
+              { title: '7. Governing Law', body: 'These Terms are governed by the laws of the Commonwealth of Pennsylvania, USA, without regard to conflict of law provisions.' },
+              { title: '8. Changes to Terms', body: 'We reserve the right to update these Terms at any time. Continued use of the Site after changes constitutes acceptance of the updated Terms.' },
+            ].map(({ title, body }) => (
+              <div key={title} style={{ marginBottom: 20 }}>
+                <h3 style={{ fontSize: 14, fontWeight: 700, color: '#1B1B2F', margin: '0 0 6px' }}>{title}</h3>
+                <p style={{ fontSize: 13, color: '#4B5563', lineHeight: 1.7, margin: 0 }}>{body}</p>
+              </div>
+            ))}
+          </>
+        )}
+      </div>
+    </div>
+  );
+}
+
+// ── Footer ────────────────────────────────────────────────────────────────
+function Footer({ onPrivacy, onTerms }) {
+  return (
+    <div style={{ background: '#1B1B2F', padding: '20px', textAlign: 'center', fontFamily: 'Plus Jakarta Sans, sans-serif' }}>
+      <p style={{ margin: '0 0 10px', fontSize: 13, color: '#475569' }}>© {new Date().getFullYear()} Deep Roots. All rights reserved.</p>
+      <div style={{ display: 'flex', justifyContent: 'center', gap: 20 }}>
+        <button onClick={onPrivacy} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 13, color: '#64748B', textDecoration: 'underline', fontFamily: 'Plus Jakarta Sans, sans-serif' }}>Privacy Policy</button>
+        <button onClick={onTerms} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 13, color: '#64748B', textDecoration: 'underline', fontFamily: 'Plus Jakarta Sans, sans-serif' }}>Terms of Service</button>
+      </div>
+    </div>
+  );
+}
+
 // ── App ───────────────────────────────────────────────────────────────────
 export default function App() {
   const [screen, setScreen] = useState('intro');
@@ -863,6 +943,7 @@ export default function App() {
   const [top3, setTop3] = useState([]);
   const [scores, setScores] = useState({});
   const [fade, setFade] = useState(true);
+  const [legalModal, setLegalModal] = useState(null);
 
   // Check if returning from Gumroad after payment
   useEffect(() => {
@@ -944,6 +1025,8 @@ export default function App() {
       {screen === 'unlocked' && (
         <UnlockedScreen top3={top3} scores={scores} onRestart={handleRestart} />
       )}
+      <Footer onPrivacy={() => setLegalModal('privacy')} onTerms={() => setLegalModal('terms')} />
+      {legalModal && <LegalModal type={legalModal} onClose={() => setLegalModal(null)} />}
     </div>
   );
 }
