@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 (() => {
   const link = document.createElement('link');
@@ -504,7 +504,7 @@ function getTop3(scores) {
 // ── Intro ─────────────────────────────────────────────────────────────────
 function IntroScreen({ onStart }) {
   return (
-    <div style={{ minHeight: '100vh', background: 'linear-gradient(160deg, #0F0C29 0%, #302B63 50%, #24243E 100%)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '40px 20px', fontFamily: 'Plus Jakarta Sans, sans-serif' }}>
+    <div style={{ minHeight: '100vh', background: 'linear-gradient(160deg, #0F0C29 0%, #302B63 50%, #24243E 100%)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '40px 20px', fontFamily: 'Plus Jakarta Sans, sans-serif' }} role="main" aria-label="Deep Roots Entrepreneurial Assessment Introduction">
       <div style={{ position: 'absolute', top: '10%', left: '50%', transform: 'translateX(-50%)', width: 400, height: 400, borderRadius: '50%', background: 'radial-gradient(circle, #6366f133 0%, transparent 70%)', pointerEvents: 'none' }} />
       <div style={{ position: 'relative', maxWidth: 580, width: '100%', textAlign: 'center' }}>
         <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: '#ffffff12', border: '1px solid #ffffff22', borderRadius: 40, padding: '8px 18px', marginBottom: 28 }}>
@@ -527,10 +527,10 @@ function IntroScreen({ onStart }) {
             <div key={f} style={{ background: '#ffffff0f', border: '1px solid #ffffff18', borderRadius: 20, padding: '6px 14px', fontSize: 13, color: '#94A3B8' }}>✓ {f}</div>
           ))}
         </div>
-        <button onClick={onStart} style={{ background: 'linear-gradient(135deg, #7C3AED, #2563EB)', color: '#fff', border: 'none', borderRadius: 14, padding: '18px 48px', fontSize: 17, fontWeight: 700, cursor: 'pointer', fontFamily: 'Plus Jakarta Sans, sans-serif', boxShadow: '0 8px 32px #7C3AED44' }}>
+        <button onClick={onStart} aria-label="Start the free entrepreneurial assessment" style={{ background: 'linear-gradient(135deg, #7C3AED, #2563EB)', color: '#fff', border: 'none', borderRadius: 14, padding: '18px 48px', fontSize: 17, fontWeight: 700, cursor: 'pointer', fontFamily: 'Plus Jakarta Sans, sans-serif', boxShadow: '0 8px 32px #7C3AED44' }}>
           Start My Free Assessment →
         </button>
-        <p style={{ marginTop: 16, fontSize: 13, color: '#64748B' }}>No sign-up required. 100% free.</p>
+        <p style={{ marginTop: 16, fontSize: 13, color: '#94A3B8' }}>No sign-up required. 100% free.</p>
       </div>
     </div>
   );
@@ -540,16 +540,16 @@ function IntroScreen({ onStart }) {
 function QuestionScreen({ question, qIndex, total, onAnswer, selected, onBack }) {
   const progress = (qIndex / total) * 100;
   return (
-    <div style={{ minHeight: '100vh', background: '#FAFAF9', display: 'flex', flexDirection: 'column', fontFamily: 'Plus Jakarta Sans, sans-serif' }}>
-      <div style={{ background: '#fff', borderBottom: '1px solid #F3F4F6', padding: '14px 20px', position: 'sticky', top: 0, zIndex: 10 }}>
+    <div style={{ minHeight: '100vh', background: '#FAFAF9', display: 'flex', flexDirection: 'column', fontFamily: 'Plus Jakarta Sans, sans-serif' }} role="main">
+      <div style={{ background: '#fff', borderBottom: '1px solid #F3F4F6', padding: '14px 20px', position: 'sticky', top: 0, zIndex: 10 }} role="navigation" aria-label="Quiz progress">
         <div style={{ maxWidth: 640, margin: '0 auto' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
-            <span style={{ fontSize: 13, fontWeight: 700, color: '#6B7280', letterSpacing: '0.05em', textTransform: 'uppercase' }}>Question {qIndex + 1} of {total}</span>
+            <span role="status" aria-live="polite" style={{ fontSize: 13, fontWeight: 700, color: '#6B7280', letterSpacing: '0.05em', textTransform: 'uppercase' }}>Question {qIndex + 1} of {total}</span>
             {qIndex > 0 && (
-              <button onClick={onBack} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 13, color: '#9CA3AF', fontFamily: 'Plus Jakarta Sans, sans-serif' }}>← Back</button>
+              <button onClick={onBack} aria-label="Go back to previous question" style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 13, color: '#6B7280', fontFamily: 'Plus Jakarta Sans, sans-serif', fontWeight: 600 }}>← Back</button>
             )}
           </div>
-          <div style={{ height: 6, background: '#F3F4F6', borderRadius: 6, overflow: 'hidden' }}>
+          <div role="progressbar" aria-valuenow={Math.round(progress)} aria-valuemin={0} aria-valuemax={100} aria-label={`Quiz progress: ${qIndex + 1} of ${total} questions`} style={{ height: 6, background: '#F3F4F6', borderRadius: 6, overflow: 'hidden' }}>
             <div style={{ height: '100%', width: `${progress}%`, background: 'linear-gradient(90deg, #7C3AED, #2563EB)', borderRadius: 6, transition: 'width 0.4s ease' }} />
           </div>
         </div>
@@ -558,18 +558,25 @@ function QuestionScreen({ question, qIndex, total, onAnswer, selected, onBack })
         <div style={{ maxWidth: 640, width: '100%' }}>
           <div style={{ marginBottom: 28 }}>
             {question.note && (
-              <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, background: '#FEF3C7', border: '1px solid #FDE68A', borderRadius: 20, padding: '4px 12px', fontSize: 12, color: '#92400E', fontWeight: 600, marginBottom: 12 }}>
+              <div role="note" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, background: '#FEF3C7', border: '1px solid #FDE68A', borderRadius: 20, padding: '4px 12px', fontSize: 12, color: '#92400E', fontWeight: 600, marginBottom: 12 }}>
                 ℹ️ {question.note}
               </div>
             )}
-            <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: 'clamp(22px, 4vw, 30px)', fontWeight: 700, color: '#1B1B2F', lineHeight: 1.35, margin: 0 }}>{question.text}</h2>
+            <h2 id={`question-${qIndex}`} style={{ fontFamily: 'Playfair Display, serif', fontSize: 'clamp(22px, 4vw, 30px)', fontWeight: 700, color: '#1B1B2F', lineHeight: 1.35, margin: 0 }}>{question.text}</h2>
           </div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+          <div role="radiogroup" aria-labelledby={`question-${qIndex}`} style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
             {question.options.map((opt) => {
               const isSel = selected === opt.value;
               return (
-                <button key={opt.value} onClick={() => onAnswer(question.id, opt.value)} style={{ background: isSel ? 'linear-gradient(135deg, #7C3AED12, #2563EB10)' : '#fff', border: `2px solid ${isSel ? '#7C3AED' : '#E5E7EB'}`, borderRadius: 14, padding: '16px 20px', textAlign: 'left', cursor: 'pointer', fontSize: 15, color: isSel ? '#5B21B6' : '#374151', fontWeight: isSel ? 700 : 500, fontFamily: 'Plus Jakarta Sans, sans-serif', lineHeight: 1.5, display: 'flex', alignItems: 'center', gap: 14, boxShadow: isSel ? '0 0 0 3px #7C3AED22' : 'none' }}>
-                  <div style={{ width: 22, height: 22, borderRadius: '50%', border: `2px solid ${isSel ? '#7C3AED' : '#D1D5DB'}`, background: isSel ? '#7C3AED' : 'transparent', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <button
+                  key={opt.value}
+                  onClick={() => onAnswer(question.id, opt.value)}
+                  role="radio"
+                  aria-checked={isSel}
+                  aria-label={opt.text}
+                  style={{ background: isSel ? 'linear-gradient(135deg, #7C3AED12, #2563EB10)' : '#fff', border: `2px solid ${isSel ? '#7C3AED' : '#E5E7EB'}`, borderRadius: 14, padding: '16px 20px', textAlign: 'left', cursor: 'pointer', fontSize: 15, color: isSel ? '#5B21B6' : '#374151', fontWeight: isSel ? 700 : 500, fontFamily: 'Plus Jakarta Sans, sans-serif', lineHeight: 1.5, display: 'flex', alignItems: 'center', gap: 14, boxShadow: isSel ? '0 0 0 3px #7C3AED22' : 'none' }}
+                >
+                  <div aria-hidden="true" style={{ width: 22, height: 22, borderRadius: '50%', border: `2px solid ${isSel ? '#7C3AED' : '#D1D5DB'}`, background: isSel ? '#7C3AED' : 'transparent', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                     {isSel && <div style={{ width: 8, height: 8, borderRadius: '50%', background: '#fff' }} />}
                   </div>
                   {opt.text}
@@ -859,9 +866,20 @@ function UnlockedScreen({ top3, scores, onRestart }) {
 function LegalModal({ type, onClose }) {
   const isPrivacy = type === 'privacy';
   const today = 'May 24, 2026';
+  const closeRef = useRef(null);
+
+  useEffect(() => {
+    closeRef.current?.focus();
+    const handleKey = (e) => { if (e.key === 'Escape') onClose(); };
+    document.addEventListener('keydown', handleKey);
+    return () => document.removeEventListener('keydown', handleKey);
+  }, [onClose]);
 
   return (
     <div
+      role="dialog"
+      aria-modal="true"
+      aria-label={isPrivacy ? 'Privacy Policy' : 'Terms of Service'}
       onClick={onClose}
       style={{ position: 'fixed', inset: 0, background: '#00000088', zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px' }}
     >
@@ -870,7 +888,9 @@ function LegalModal({ type, onClose }) {
         style={{ background: '#fff', borderRadius: 20, maxWidth: 640, width: '100%', maxHeight: '80vh', overflowY: 'auto', padding: '32px 28px', fontFamily: 'Plus Jakarta Sans, sans-serif', position: 'relative' }}
       >
         <button
+          ref={closeRef}
           onClick={onClose}
+          aria-label="Close dialog"
           style={{ position: 'absolute', top: 16, right: 16, background: '#F3F4F6', border: 'none', borderRadius: 8, width: 32, height: 32, cursor: 'pointer', fontSize: 16, color: '#6B7280', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
         >✕</button>
 
@@ -1006,6 +1026,8 @@ export default function App() {
 
   return (
     <div>
+      <a href="#main-content" className="skip-link">Skip to main content</a>
+      <div id="main-content">
       {screen === 'intro' && <IntroScreen onStart={() => setScreen('quiz')} />}
       {screen === 'quiz' && (
         <div style={{ opacity: fade ? 1 : 0, transition: 'opacity 0.3s ease-in-out' }}>
@@ -1025,6 +1047,7 @@ export default function App() {
       {screen === 'unlocked' && (
         <UnlockedScreen top3={top3} scores={scores} onRestart={handleRestart} />
       )}
+      </div>
       <Footer onPrivacy={() => setLegalModal('privacy')} onTerms={() => setLegalModal('terms')} />
       {legalModal && <LegalModal type={legalModal} onClose={() => setLegalModal(null)} />}
     </div>
