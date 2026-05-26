@@ -1027,6 +1027,9 @@ export default function App() {
   return (
     <div>
       <a href="#main-content" className="skip-link">Skip to main content</a>
+      <div role="banner" aria-label="Development notice" style={{ background: '#FEF3C7', borderBottom: '2px solid #F59E0B', padding: '10px 20px', textAlign: 'center', fontFamily: 'Plus Jakarta Sans, sans-serif', fontSize: 13, fontWeight: 600, color: '#92400E' }}>
+        🚧 This site is currently under development and is not for commercial use.
+      </div>
       <div id="main-content">
       {screen === 'intro' && <IntroScreen onStart={() => setScreen('quiz')} />}
       {screen === 'quiz' && (
